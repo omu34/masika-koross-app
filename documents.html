@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload and Download</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.1/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mx-auto p-8">
+        <h1 class="text-2xl font-bold mb-4">File Upload and Download</h1>
+
+        <div class="flex flex-col items-center">
+            <input type="file" id="fileInput" class="border border-gray-300 rounded-md p-2 mb-4">
+
+            <button id="uploadButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Upload
+            </button>
+
+            <a id="downloadLink" href="#" class="hidden mt-4 text-blue-500 hover:underline">Download</a>
+        </div>
+    </div>
+
+    <script>
+        uploadButton.addEventListener('click', async () => {
+                const file = fileInput.files[0];
+
+                if (file) {
+                    try {
+                        const formData = new FormData();
+                        formData.append('file', file);
+
+                        const response = await fetch('/upload', {
+                            method: 'POST',
+                            body: formData
+                        });
+
+                        if (!response.ok) {
+                            const errorMessage = await response.text();
+                            alert(`Upload failed: ${response.status} - ${errorMessage}`);
+                            return;
+                        }
+
+                        // ... (rest of the code)
+                    } catch (error) {
+                        console.error('Upload error:', error);
+                        alert('An error occurred during upload. Please try again later.');
+                    }
+                }
+            });
+        // const fileInput = document.getElementById('fileInput');
+        // const uploadButton = document.getElementById('uploadButton');
+        // const downloadLink = document.getElementById('downloadLink');
+
+        // uploadButton.addEventListener('click', async () => {
+        //     const file = fileInput.files[0];
+
+        //     if (file) {
+        //         try {
+        //             // **1. Upload Logic (Replace with your actual upload function)**
+        //             const formData = new FormData();
+        //             formData.append('file', file);
+
+        //             const response = await fetch('/upload', {
+        //                 method: 'POST',
+        //                 body: formData
+        //             });
+
+        //             if (response.ok) {
+        //                 // **2. Get Download URL (Replace with your actual URL retrieval logic)**
+        //                 const data = await response.json();
+        //                 const downloadUrl = data.downloadUrl;
+
+        //                 // **3. Update Download Link**
+        //                 downloadLink.href = downloadUrl;
+        //                 downloadLink.classList.remove('hidden');
+        //             } else {
+        //                 alert('Upload failed.');
+        //             }
+        //         } catch (error) {
+        //             console.error('Upload error:', error);
+        //             alert('An error occurred during upload.');
+        //         }
+        //     }
+        // });
+    </script>
+</body>
+
+</html>
